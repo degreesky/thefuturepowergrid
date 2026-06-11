@@ -246,6 +246,29 @@
   .hw-cap{color:var(--fog);font-size:.92rem;margin-top:14px}
   @media(max-width:760px){.harm-waves{grid-template-columns:1fr}}
 
+  /* harmonics causal hierarchy: capacity → congestion → power quality */
+  .harm-hier{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:40px;border:1px solid var(--line-soft);border-radius:4px;overflow:hidden}
+  .hh-tier{background:var(--panel);padding:28px 26px;position:relative;border-right:1px solid var(--line-soft)}
+  .hh-tier:last-child{border-right:none}
+  .hh-tier::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .hh-1::before{background:var(--alarm)}
+  .hh-2::before{background:var(--amber)}
+  .hh-3::before{background:var(--trace-dim)}
+  .hh-rank{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog-2)}
+  .hh-rank b{color:var(--paper);font-weight:600}
+  .hh-tier h4{font-family:var(--disp);font-weight:600;font-size:1.18rem;letter-spacing:-.01em;margin:12px 0 4px}
+  .hh-1 h4{color:var(--alarm)}
+  .hh-tier .hh-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog-2);margin-bottom:12px;display:block}
+  .hh-tier p{color:var(--fog);font-size:.92rem;line-height:1.5}
+  .hh-tier p strong{color:var(--paper);font-weight:500}
+  .hh-flow-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fog-2);text-transform:uppercase;text-align:center;margin:-24px 0 40px}
+  .hh-flow-note b{color:var(--alarm)}
+  @media(max-width:760px){
+    .harm-hier{grid-template-columns:1fr}
+    .hh-tier{border-right:none;border-bottom:1px solid var(--line-soft)}
+    .hh-tier:last-child{border-bottom:none}
+  }
+
   .harm-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:36px;margin-bottom:40px;align-items:start}
   .harm-text h3{font-family:var(--disp);font-weight:600;font-size:1.4rem;letter-spacing:-.01em;margin-bottom:16px}
   .harm-text p{color:var(--fog);margin-bottom:16px}
@@ -348,6 +371,10 @@
   .pub .tag.pub-live{color:var(--trace);border-color:var(--trace-dim)}
   .pub .tag.prog{color:var(--amber);border-color:#5a4a1f}
   .pub .tag.series{color:var(--fog);border-color:var(--line)}
+  .iea-note{display:flex;align-items:center;gap:16px;background:linear-gradient(90deg,rgba(62,224,143,.08),transparent);border:1px solid var(--trace-dim);border-radius:4px;padding:18px 24px;margin-bottom:24px}
+  .iea-note .iea-tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink);background:var(--trace);border-radius:2px;padding:5px 10px;font-weight:600;flex-shrink:0}
+  .iea-note p{font-size:1rem;color:var(--paper);line-height:1.5}
+  .iea-note em{font-style:italic;color:var(--trace)}
   .pub h3{font-family:var(--disp);font-weight:600;font-size:1.24rem;letter-spacing:-.01em;line-height:1.25}
   .pub p{color:var(--fog);font-size:.96rem;margin-top:7px;max-width:70ch}
   .pub .go{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);white-space:nowrap;transition:color .2s}
@@ -650,8 +677,8 @@
     <div class="sec-head">
       <span class="sec-no">03</span>
       <div>
-        <h2>The hidden risk: <em>a wave bent out of shape</em>.</h2>
-        <p class="sec-sub">Grid risk isn't only about losing a line. It's also about the quality of the power itself — and modern loads, data centres chief among them, are quietly degrading it. This is measurable, and it can be governed by the same risk logic.</p>
+        <h2>Harmonics: a <em>capacity</em> problem first.</h2>
+        <p class="sec-sub">Harmonic distortion is usually filed under power quality. That ordering is backwards. Its first and largest effect is on <strong>grid capacity</strong> — which is precisely the bottleneck the IEA's <em>Electricity 2026</em> identifies. Read in the right order, harmonics are a structural capacity constraint that the three-layer framework can measure and manage.</p>
       </div>
     </div>
 
@@ -677,25 +704,48 @@
       </div>
     </div>
 
+    <!-- the causal hierarchy: the correction -->
+    <div class="hh-flow-note">The usual conversation starts at power quality. The <b>causality runs the other way</b> ↓</div>
+    <div class="harm-hier">
+      <div class="hh-tier hh-1">
+        <div class="hh-rank"><b>First</b> · the structural constraint</div>
+        <h4>Grid capacity</h4>
+        <span class="hh-tag">MW / MVA envelope</span>
+        <p>Harmonics inject non-fundamental currents that raise the true <strong>RMS load</strong> on conductors, transformers and switchgear. This triggers <strong>thermal derating well before nameplate limits</strong>, shrinking the available MW/MVA envelope. Everything else follows from this.</p>
+      </div>
+      <div class="hh-tier hh-2">
+        <div class="hh-rank"><b>Second</b> · the consequence</div>
+        <h4>Congestion &amp; queues</h4>
+        <span class="hh-tag">Dispatch &amp; interconnection</span>
+        <p>Once headroom is compressed at a node or corridor, dispatch margin tightens and connection requests pile up behind it. Harmonic-induced derating <strong>closes a node earlier than its nominal rating suggests</strong> — extending interconnection queues and distorting redispatch costs.</p>
+      </div>
+      <div class="hh-tier hh-3">
+        <div class="hh-rank"><b>Third</b> · the symptom</div>
+        <h4>Power quality</h4>
+        <span class="hh-tag">THD / voltage distortion</span>
+        <p>THD, voltage distortion and equipment interference are real — but they are <strong>downstream symptoms</strong>. They show up on power-quality analysers and drive compliance costs, which is why they dominate operational talk. Fixing THD at the load side doesn't recover the capacity lost upstream.</p>
+      </div>
+    </div>
+
     <!-- the data centre angle -->
     <div class="harm-grid">
       <div class="harm-text">
-        <h3>Why data centres change the risk picture</h3>
-        <p>A data centre is the archetypal <strong>non-linear load</strong>: enormous, switched-mode, and growing fast. At scale it doesn't just consume power — it actively distorts the waveform feeding everyone else on the network. As regions electrify everything at once (EVs, heat pumps, solar, AI compute), this distortion compounds.</p>
-        <p>The damage is real but largely invisible: <strong>transformers overheat and lose life, motors vibrate and fail early, sensitive equipment glitches, and cables carrying piled-up harmonic currents can overheat</strong>. The IEA's own framing applies directly — congestion and instability cannot be managed without measuring the risk they create.</p>
-        <p>Crucially, harmonic distortion is a <strong>propagating instability</strong>: a disturbance injected at one connection point feeds back into the wider system. That makes it a system-level risk, not a local nuisance — exactly the kind a probabilistic, real-time framework is built to quantify.</p>
+        <h3>Why data centres make this urgent</h3>
+        <p>A data centre is the archetypal <strong>non-linear load</strong>: enormous, switched-mode, and growing fast. At scale it doesn't just consume power — it injects harmonic currents that <strong>derate the very infrastructure feeding everyone else</strong>. As regions electrify at once (EVs, heat pumps, solar, AI compute), this compounds, and the lost capacity is invisible on a nameplate.</p>
+        <p>Read through the hierarchy above, a new large load is not just a power-quality question at the point of connection — it is a <strong>capacity-and-congestion question for the whole corridor</strong>. The IEA's framing applies directly: congestion and instability cannot be managed without measuring the risk they create.</p>
+        <p>This is why harmonics belong inside the framework, not beside it. The distortion injected at one node <strong>propagates back into the wider system</strong> — a system-level risk that the same probabilistic, real-time risk evaluation is built to quantify, rank and act on.</p>
       </div>
       <div class="harm-side">
         <div class="harm-stat-card">
-          <div class="hsc-eyebrow">Real-time harmonic risk</div>
-          <p>Distortion can be measured continuously and each harmonic ranked against its safe limit — green, amber, red — at every connection point.</p>
+          <div class="hsc-eyebrow">Risk evaluation, extended</div>
+          <p>Each harmonic can be measured continuously and ranked against its safe limit — green, amber, red — at every connection point, then folded into the same capacity-risk number as everything else.</p>
           <div class="hsc-meter">
             <span class="seg green"></span><span class="seg green"></span><span class="seg amber"></span><span class="seg red"></span>
           </div>
           <div class="hsc-scale"><span>SAFE</span><span>APPROACHING</span><span>BEYOND LIMIT</span></div>
         </div>
         <div class="harm-note">
-          <p><b>Historical data is a forecasting asset.</b> Records of rising harmonics show <em>how</em> instability has propagated back into the grid before — turning past distortion into a forward-looking signal for where risk will emerge next.</p>
+          <p><b>Historical data is a forecasting asset.</b> Records of rising harmonics show <em>how</em> derating and instability have propagated back into the grid before — turning past distortion into a forward-looking signal for where capacity risk emerges next.</p>
         </div>
       </div>
     </div>
@@ -711,7 +761,7 @@
       <div class="hf-step"><span class="hf-n">04</span><div><h4>Assign a risk level</h4><p>Keep every harmonic within its safe limit — and assess any new large load before it connects.</p></div></div>
     </div>
 
-    <p class="harm-kicker">You can't manage what you can't measure. Real-time monitoring turns invisible distortion into an assigned risk level — and gives operators a way to keep data-centre-driven instability inside safe limits <b>before</b> it propagates.</p>
+    <p class="harm-kicker">Treated as power quality, harmonics get filtered locally and the lost capacity is never recovered. Treated as <b>capacity risk</b> — measured, ranked and managed within the three-layer framework — they become one more margin the grid can safely unlock. This is the natural extension developed in the white-paper series.</p>
   </div>
 </section>
 
@@ -979,6 +1029,11 @@
       </div>
     </div>
 
+    <div class="iea-note">
+      <span class="iea-tag">IEA</span>
+      <p>This white paper series was submitted to the IEA in response to their findings in <em>Electricity 2026</em>.</p>
+    </div>
+
     <div class="pubs">
       <a class="pub" href="papers/the-future-power-grid-brief.pdf" target="_blank" rel="noopener" style="border-color:var(--trace-dim)">
         <span class="tag pub-live">Brief · 2 pages</span>
@@ -999,12 +1054,12 @@
       </a>
 
       <a class="pub" href="papers/whitepaper-2-virtual-n1.pdf" target="_blank" rel="noopener">
-        <span class="tag prog">WP2 · In progress</span>
+        <span class="tag pub-live">WP2 · Published</span>
         <div>
           <h3>From N-1 to Virtual N-1</h3>
-          <p>Once risk-based operation is established, a natural next step is to move from implicit to explicit management of system margins. Extending the framework through conditional connection. Draft available — Svendsen, Nyiredy &amp; Milenkovic, 2026.</p>
+          <p>Once risk-based operation is established, a natural next step is to move from implicit to explicit management of system margins — extending the framework through conditional connection. Svendsen, Nyiredy &amp; Milenkovic, 2026.</p>
         </div>
-        <span class="go">Open draft ↗</span>
+        <span class="go">Open PDF ↗</span>
       </a>
 
       <a class="pub" href="papers/iea-electricity-2026.pdf" target="_blank" rel="noopener">
