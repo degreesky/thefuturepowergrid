@@ -165,6 +165,20 @@
   /* ---------- objective / pillars ---------- */
   .obj-banner{font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,3.4vw,2.5rem);line-height:1.25;color:var(--paper);max-width:24ch;margin-bottom:54px}
   .obj-banner b{font-style:normal;font-family:var(--disp);font-weight:600;color:var(--trace)}
+  /* big three-layer word strip (IEA match) */
+  .layer-words{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:40px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .lw{padding:34px 24px 30px;text-align:center;position:relative;border-right:1px solid var(--line-soft)}
+  .lw:last-child{border-right:none}
+  .lw .lw-no{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--trace-dim);display:block;margin-bottom:14px}
+  .lw .lw-word{font-family:var(--disp);font-weight:700;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.02em;color:var(--paper);line-height:1;display:block}
+  .lw .lw-verb{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--trace);margin-top:10px;display:block}
+  .lw-arrow{position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--trace-dim);font-size:1.1rem;z-index:2;background:var(--ink);padding:2px 0}
+  @media(max-width:760px){
+    .layer-words{grid-template-columns:1fr}
+    .lw{border-right:none;border-bottom:1px solid var(--line-soft)}
+    .lw:last-child{border-bottom:none}
+    .lw-arrow{display:none}
+  }
   .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
   .pillar{background:var(--panel);border:1px solid var(--line-soft);border-radius:3px;padding:30px 26px;position:relative;transition:border-color .25s,transform .25s}
   .pillar:hover{border-color:var(--trace-dim);transform:translateY(-3px)}
@@ -180,6 +194,13 @@
   .sys-key p{color:var(--fog);margin-top:22px;font-size:1.06rem;line-height:1.6;max-width:54ch}
   .sys-key p strong{color:var(--paper);font-weight:500}
   .sys-insight{margin-top:28px;border-left:2px solid var(--trace);padding:8px 0 8px 22px;font-family:var(--serif);font-style:italic;font-size:1.2rem;line-height:1.5;color:var(--paper)}
+  .layer-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+  .lk{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line-soft);border-radius:4px;padding:16px 16px 14px;position:relative}
+  .lk::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--trace);opacity:.45}
+  .lk-no{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--trace-dim)}
+  .lk-word{font-family:var(--disp);font-weight:700;font-size:clamp(1.5rem,3.2vw,2rem);letter-spacing:-.02em;color:var(--trace);line-height:1.05;margin-top:6px}
+  .lk-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fog-2);margin-top:6px}
+  @media(max-width:760px){.layer-keys{grid-template-columns:1fr;gap:10px}.lk{flex-direction:row;align-items:baseline;gap:12px}.lk-word{font-size:1.5rem}.lk-sub{margin-top:0;margin-left:auto}}
   .sys-missing{background:var(--panel);border:1px solid var(--line-soft);border-radius:4px;padding:30px 30px}
   .sys-missing h3{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--trace-dim);margin-bottom:16px}
   .sys-missing p{color:var(--fog);font-size:1rem;line-height:1.55;margin-bottom:16px}
@@ -346,6 +367,9 @@
   .scard.goal .sc-yr{color:var(--trace)}
   .scard h4{font-family:var(--disp);font-weight:600;font-size:1.16rem;margin:10px 0 8px;letter-spacing:-.01em}
   .scard p{color:var(--fog);font-size:.96rem}
+  .scard p + p{margin-top:14px}
+  .runtime-hl{display:block;margin:14px 0;font-family:var(--disp);font-weight:600;font-size:1.12rem;line-height:1.4;color:var(--trace)}
+  .scard-hl{font-family:var(--disp);font-weight:700;font-size:1.08em;color:var(--trace)}
   .scard em{color:var(--paper);font-style:italic}
   @media(max-width:760px){.story-cards{grid-template-columns:1fr}}
 
@@ -538,6 +562,12 @@
         <div class="eyebrow" style="margin-bottom:20px">Unlocking grid capacity — a system-level approach</div>
         <h2>The limitation is not physical. It is <em>operational</em>.</h2>
         <p>Grid capacity is increasingly the main bottleneck for electrification, industrial growth and the integration of new demand. But existing technologies can already unlock significant additional capacity — <strong>only when combined within a consistent system-level framework</strong>.</p>
+        <p style="margin-top:18px">That framework is built on three layers, applied in order. Each maps directly to a distinct function in how the grid is operated:</p>
+        <div class="layer-keys">
+          <div class="lk"><span class="lk-no">01</span><span class="lk-word">Decision</span><span class="lk-sub">Reveal the risk</span></div>
+          <div class="lk"><span class="lk-no">02</span><span class="lk-word">Physical</span><span class="lk-sub">Integrate capacity</span></div>
+          <div class="lk"><span class="lk-no">03</span><span class="lk-word">Security</span><span class="lk-sub">Deploy flexibility</span></div>
+        </div>
         <div class="sys-insight">Capacity gains are non-additive — without risk-based operation as a foundation, other solutions cannot scale at system level.</div>
       </div>
       <div class="sys-missing">
@@ -650,6 +680,27 @@
     </div>
 
     <p class="obj-banner">Capacity is not unlocked by stacking gadgets. It is unlocked by knowing, at every moment, <b>how much risk you are actually carrying</b> — and operating accordingly.</p>
+
+    <!-- big three-layer strip for IEA to match their 3 layers -->
+    <div class="layer-words">
+      <div class="lw">
+        <span class="lw-no">LAYER 01</span>
+        <span class="lw-word">Decision</span>
+        <span class="lw-verb">Reveal</span>
+        <span class="lw-arrow">→</span>
+      </div>
+      <div class="lw">
+        <span class="lw-no">LAYER 02</span>
+        <span class="lw-word">Physical</span>
+        <span class="lw-verb">Integrate</span>
+        <span class="lw-arrow">→</span>
+      </div>
+      <div class="lw">
+        <span class="lw-no">LAYER 03</span>
+        <span class="lw-word">Security</span>
+        <span class="lw-verb">Deploy</span>
+      </div>
+    </div>
 
     <div class="pillars">
       <div class="pillar">
@@ -946,6 +997,7 @@
         <div class="sc-yr">Dec 2014 · The proof point</div>
         <h4>Why this is not theoretical</h4>
         <p>The Møre blackout showed the risk signal climbing for 19 hours before the fault. With the probabilistic framework in the control room, that trajectory would have triggered reserve alerts and preventive switching long before the cascade. The cost was real. So was the warning.</p>
+        <p>Furthermore, the risk and reliability capabilities provided snapshot analysis for maintenance- and preparedness planning. In total the reliability and risk assessment capability has a <span class="scard-hl">combined operational run-time of over 20 years (through several TSOs and DSOs in Norway and Iceland)</span>. Operational implementations of probabilistic risk assessment in Nordic systems have demonstrated the ability to identify elevated system risk several hours ahead of disturbances, providing operators with actionable decision support.</p>
       </div>
       <div class="scard">
         <div class="sc-yr">2025–2026 · The case</div>
